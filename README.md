@@ -60,23 +60,23 @@
 #### Проект будет состоять из пяти таблиц, 
 #### отражающих следующие сущности и связи:
 #### Client
-• Поля: id (PK), name , email , registrationDate
-• Связи:
-◦ One-to-one c Profile
-◦ One-to-many c Order
-◦ Many-to-many c Coupon (через таблицу CLIENT_COUPONS)
++ Поля: id (PK), name , email , registrationDate
++ Связи:
++ One-to-one c Profile
++ One-to-many c Order
++ Many-to-many c Coupon (через таблицу CLIENT_COUPONS)
 #### Profile
-• Поля: id (PK), address , phone
-• Связи:
-◦ One-to-one с Client
++ Поля: id (PK), address , phone
++ Связи:
++ One-to-one с Client
 #### Order
-• Поля: id (PK), orderDate , totalAmount , status
-• Связи:
-◦ Many-to-one с Client
++ Поля: id (PK), orderDate , totalAmount , status
++ Связи:
++ Many-to-one с Client
 #### Coupon
-• Поля: id (PK), code , discount
-• Связи:
-◦ Many-to-many с Client
++ Поля: id (PK), code , discount
++ Связи:
++ Many-to-many с Client
 #### CLIENT_COUPONS (вспомогательная таблица)
-• Поля: client_id , coupon_id
-• Служит для организации связи многие-ко-многим между Client и Coupon.
++ Поля: client_id , coupon_id
++ Служит для организации связи многие-ко-многим между Client и Coupon.
