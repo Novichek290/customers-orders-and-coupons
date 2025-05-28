@@ -25,6 +25,12 @@ public class Client {
 
     private LocalDateTime dateTime;
 
+    @OneToOne(mappedBy = "Client")
+    private Profile profile;
+
+    @OneToMany(mappedBy = "Client")
+    private Order order;
+
     public Client(String name, String email){
         this.name = name;
         this.email = email;
