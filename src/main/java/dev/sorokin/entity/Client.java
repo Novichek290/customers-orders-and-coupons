@@ -25,11 +25,9 @@ public class Client {
 
     private LocalDateTime dateTime;
 
-    @OneToOne(mappedBy = "Client")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
-
-    @OneToMany(mappedBy = "Client")
-    private Order order;
 
     public Client(String name, String email){
         this.name = name;
