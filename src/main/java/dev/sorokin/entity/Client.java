@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Table(name = "clients")
+@Table(name = "clients", schema = "client_manager")
 @Entity
 public class Client {
 
@@ -32,6 +32,9 @@ public class Client {
     public Client(String name, String email){
         this.name = name;
         this.email = email;
-
+        if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            throw new IllegalArgumentException("Invalid email format");
+        } else this.email = email;
+        dateTime = LocalDateTime.now();
     }
 }
