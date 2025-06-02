@@ -20,6 +20,6 @@ public class Profile {
     private String adress;
     private String phone;
 
-    @OneToOne(mappedBy = "Client")
+    @OneToOne(mappedBy = "profile")
     private Client client;
 }
