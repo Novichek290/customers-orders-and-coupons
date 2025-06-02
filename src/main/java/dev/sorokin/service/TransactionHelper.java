@@ -1,5 +1,6 @@
 package dev.sorokin.service;
 
+import dev.sorokin.exeptions.ServiceExeption;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,7 +25,7 @@ public class TransactionHelper {
             transaction = session.getTransaction();
             transaction.begin();
 
-            if (transaction == null) throw new IllegalStateException("Transaction not started");
+//            if (transaction == null) throw new IllegalStateException("Transaction not started");
             action.accept(session);
 
             transaction.commit();
@@ -45,7 +46,7 @@ public class TransactionHelper {
             transaction = session.getTransaction();
             transaction.begin();
 
-            if(transaction == null) throw new IllegalStateException("Transaction not started");
+//            if(transaction == null) throw new IllegalStateException("Transaction not started");
             var result = action.apply(session);
             transaction.commit();
 

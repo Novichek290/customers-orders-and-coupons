@@ -1,9 +1,6 @@
 package dev.sorokin.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -11,6 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Entity
+@Table(name = "profiles")
 public class Profile {
 
     @Id
@@ -21,6 +20,6 @@ public class Profile {
     private String adress;
     private String phone;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(mappedBy = "Client")
     private Client client;
 }

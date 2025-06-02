@@ -1,0 +1,32 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/customers-orders-coupons?currentSchema=client_manager</property>
+        <property name="hibernate.connection.username">denis</property>
+        <property name="hibernate.connection.password">gfhjkm</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <property
+                name="hibernate.connection.provider_class">
+                org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+        </property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.maximumPoolSize">20</property>
+
+<!--        <property name="hibernate.generate_statistics">true</property>-->
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Entities -->
+        <mapping class="dev.sorokin.entity.Client"/>
+    </session-factory>
+</hibernate-configuration>
