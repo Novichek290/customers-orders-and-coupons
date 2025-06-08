@@ -6,13 +6,17 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/customers-orders-coupons?currentSchema=client_manager</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/customers-orders-coupons?currentSchema=client_manager?autocommit=true</property>
         <property name="hibernate.connection.username">denis</property>
         <property name="hibernate.connection.password">gfhjkm</property>
+
 
         <!-- Echo all executed SQL to stdout -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
+        <property name="logging.level.org.hibernate.SQL">DEBUG</property>
+
+
 
         <property
                 name="hibernate.connection.provider_class">
@@ -24,9 +28,17 @@
 <!--        <property name="hibernate.generate_statistics">true</property>-->
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.ddl.auto">update</property>
+        <property name="hibernate.jdbc.timeout">10</property>
+        <property name="hibernate.hikari.connectionTimeout">10000</property>
+        <property name="hibernate.hikari.maxLifetime">300000</property>
+        <property name="hibernate.hikari.idleTimeout">60000</property>
+
+        <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- Entities -->
         <mapping class="dev.sorokin.entity.Client"/>
+        <mapping class="dev.sorokin.entity.Profile"/>
+
     </session-factory>
 </hibernate-configuration>

@@ -1,4 +1,4 @@
-package dev.sorokin.configurations;
+package dev.sorokin.configuration;
 
 import dev.sorokin.entity.Client;
 import dev.sorokin.entity.Profile;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "dev.sorokin")
 public class HibernateConfiguration {
     @Bean
-    private static SessionFactory sessionFactory() {
+    public static SessionFactory sessionFactory() {
         return new org.hibernate.cfg.Configuration()
                 .configure()
                 .addAnnotatedClass(Client.class)
