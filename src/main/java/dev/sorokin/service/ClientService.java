@@ -2,7 +2,9 @@ package dev.sorokin.service;
 
 import dev.sorokin.design.Color;
 import dev.sorokin.entity.Client;
-import dev.sorokin.exeptions.ClientEmailAlreadyExists;
+import dev.sorokin.entity.Profile;
+import dev.sorokin.exeption.ClientEmailAlreadyExists;
+import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Service;
@@ -61,20 +63,28 @@ public class ClientService {
     }
 
     public void printAll() {
-        List<Client> clientList = transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("SELECT c FROM Client c").getResultList();
-        });
+        try {
+            List<Client> clientList = transactionHelper.executeInTransaction(session -> {
+                return session.createQuery("SELECT c FROM Client c order by id").setTimeout(3).getResultList();
+            });
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
-        for(Client clients : clientList) {
-            System.out.printf("ID: %-12s | Name: %-12s | Email: %-26s | At: %-12s\n",
-                    clients.getId(),
-                    clients.getName(),
-                    clients.getEmail(),
-                    clients.getDateTime() != null ? clients.getDateTime().format(formatter) : "null");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+            for (Client clients : clientList) {
+                System.out.printf("ID: %-12s | Name: %-12s | Email: %-26s | At: %-26s | profile: %-12s\n",
+                        clients.getId(),
+                        clients.getName(),
+                        clients.getEmail(),
+                        clients.getDateTime() != null ? clients.getDateTime().format(formatter) : "null",
+                        clients.getProfile() != null ? clients.getProfile().getId() : null);
+            }
+            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+        } catch (Exception e) {
+            Color color = new Color();
+            System.err.println(color.getCYAN() + "Ошибка при получении клиентов" + color.getRESET());
+            throw e;
+
         }
-        System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
     }
 
     public Client getById(Long id) {
@@ -110,4 +120,12 @@ public class ClientService {
         });
     }
 
+    @Transactional
+    public void update(Client client) {
+        transactionHelper.executeInTransaction(session -> {
+//            if(client.getProfile()!=null) {
+//            }
+            session.merge(client);
+        });
+    }
 }
