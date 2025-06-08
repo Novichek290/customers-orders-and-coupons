@@ -5,21 +5,31 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder(toBuilder = true)
 @Entity
-@Table(name = "profiles")
+@Table(name = "profile", schema = "client_manager")
 public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private long client_id;
 
-    private String adress;
+    public Profile(String address, String phone, Client client) {
+        this.address = address;
+        this.phone = phone;
+        this.client = client;
+    }
+
+    @Column(name = "address")
+    private String address;
+    @Column(name = "phone")
     private String phone;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Client client;
 }

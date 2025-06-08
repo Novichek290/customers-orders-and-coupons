@@ -19,22 +19,21 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long profile_id;
 
     private String name;
     private String email;
 
     private LocalDateTime dateTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Profile profile;
 
-    public Client(String name, String email){
-        this.name = name;
-        this.email = email;
+    public void setEmail(String email) {
         if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new IllegalArgumentException("Invalid email format");
         } else this.email = email;
-        dateTime = LocalDateTime.now();
     }
 }
