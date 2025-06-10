@@ -137,8 +137,7 @@ public class ClientService {
     @Transactional
     public void update(Client client) {
         transactionHelper.executeInTransaction(session -> {
-//            if(client.getProfile()!=null) {
-//            }
+
             session.merge(client);
         });
     }
