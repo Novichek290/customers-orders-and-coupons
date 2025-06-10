@@ -1,5 +1,6 @@
 package dev.sorokin.entity;
 
+import dev.sorokin.design.Color;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,18 +19,13 @@ public class Profile {
     @Column(name = "id")
     private Long id;
 
-    public Profile(String address, String phone, Client client) {
-        this.address = address;
-        this.phone = phone;
-        this.client = client;
-    }
-
     @Column(name = "address")
     private String address;
     @Column(name = "phone")
     private String phone;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
     @ToString.Exclude
     private Client client;
 }

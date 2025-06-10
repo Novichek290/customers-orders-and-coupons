@@ -45,7 +45,7 @@ public class TransactionHelper {
             transaction = session.getTransaction();
             transaction.begin();
 
-//            if(transaction == null) throw new IllegalStateException("Transaction not started");
+            if(transaction == null) throw new IllegalStateException("Transaction not started");
             var result = action.apply(session);
             transaction.commit();
 

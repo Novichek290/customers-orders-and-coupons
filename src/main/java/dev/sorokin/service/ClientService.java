@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class ClientService {
-    private final TransactionHelper transactionHelper;
+    private static TransactionHelper transactionHelper;
     private final SessionFactory sessionFactory;
 
     public ClientService(TransactionHelper transactionHelper, SessionFactory sessionFactory) {
@@ -69,7 +69,8 @@ public class ClientService {
             });
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+            System.out.print(Color.getBLUE() + "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-" + Color.getRESET());
             for (Client clients : clientList) {
                 System.out.printf("ID: %-12s | Name: %-12s | Email: %-26s | At: %-26s | profile: %-12s\n",
                         clients.getId(),
@@ -78,16 +79,16 @@ public class ClientService {
                         clients.getDateTime() != null ? clients.getDateTime().format(formatter) : "null",
                         clients.getProfile() != null ? clients.getProfile().getId() : null);
             }
-            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+            System.out.print(Color.getBLUE() + "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
+            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-" + Color.getRESET());
         } catch (Exception e) {
-            Color color = new Color();
-            System.err.println(color.getCYAN() + "Ошибка при получении клиентов" + color.getRESET());
+            System.err.println(Color.getCYAN() + "Ошибка при получении клиентов" + Color.getRESET());
             throw e;
 
         }
     }
 
-    public Client getById(Long id) {
+    public static Client getById(Long id) {
         return transactionHelper.executeInTransaction(session -> {
             return session.get(Client.class, id);
         });
@@ -120,11 +121,32 @@ public class ClientService {
         });
     }
 
+    public Client profileUpdate(Long clientId, String address, String phone) {
+        Client client = ClientService.getById(clientId);
+        Profile profile = Profile.builder()
+                .phone(phone)
+                .address(address)
+                .build();
+
+        client.setProfile(profile);
+        profile.setClient(client);
+
+        return client;
+    }
+
     @Transactional
     public void update(Client client) {
         transactionHelper.executeInTransaction(session -> {
 //            if(client.getProfile()!=null) {
 //            }
+            session.merge(client);
+        });
+    }
+
+    public void addProfileToClient(Client client, Profile profile) {
+        transactionHelper.executeInTransaction(session -> {
+            client.setProfile(profile);
+            profile.setClient(client);
             session.merge(client);
         });
     }
