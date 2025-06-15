@@ -2,7 +2,6 @@ package dev.sorokin.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.core.SpringVersion;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +33,16 @@ public class Client {
     )
     @ToString.Exclude
     private Profile profile;
+
+//    @OneToMany (
+////            mappedBy = "client",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
+//    @OneToMany
+    @ToString.Exclude
+    private Order order;
 
 
     public void setEmail(String email) {
