@@ -1,26 +1,32 @@
 package dev.sorokin.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder(toBuilder = true)
+@Entity
+@Table(name = "profile", schema = "client_manager")
 public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private long client_id;
 
-    private String adress;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "phone")
     private String phone;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    @ToString.Exclude
     private Client client;
+
+//    private Order order;
 }

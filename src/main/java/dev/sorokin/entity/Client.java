@@ -2,9 +2,10 @@ package dev.sorokin.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.core.SpringVersion;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Table(name = "clients")
+@Table(name = "clients", schema = "client_manager")
 @Entity
 public class Client {
 
@@ -23,15 +24,37 @@ public class Client {
     private String name;
     private String email;
 
+    @Setter
     private LocalDateTime dateTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(
+            mappedBy = "client",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
     private Profile profile;
 
-    public Client(String name, String email){
-        this.name = name;
-        this.email = email;
+@OneToMany(
+        mappedBy = "client",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+)
+@ToString.Exclude
+private List<Order> orders;
 
+
+    public void setEmail(String email) {
+        if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            throw new IllegalArgumentException("Invalid email format");
+        } else this.email = email;
     }
+
+    public void addOrder (Order order) {
+        orders.add(order);
+        order.setClient(this);
+    }
+
 }

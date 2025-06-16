@@ -1,21 +1,24 @@
-package dev.sorokin.configurations;
+package dev.sorokin.configuration;
 
 import dev.sorokin.entity.Client;
+import dev.sorokin.entity.Order;
 import dev.sorokin.entity.Profile;
 import org.hibernate.SessionFactory;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EntityScan(basePackages = "dev.sorokin.entity")
+@ComponentScan(basePackages = "dev.sorokin")
 public class HibernateConfiguration {
     @Bean
-    private static SessionFactory sessionFactory() {
+    public static SessionFactory sessionFactory() {
         return new org.hibernate.cfg.Configuration()
-                .configure()
+                .configure("hibernate.cfg.xml") // Явно укажите конфиг
+                .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .addAnnotatedClass(Client.class)
                 .addAnnotatedClass(Profile.class)
+                .addAnnotatedClass(Order.class)
                 .buildSessionFactory();
     }
 }
