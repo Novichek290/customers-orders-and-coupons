@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,21 +36,25 @@ public class Client {
     @ToString.Exclude
     private Profile profile;
 
-//    @OneToMany (
-////            mappedBy = "client",
-//            fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    @OneToMany
-    @ToString.Exclude
-    private Order order;
+@OneToMany(
+        mappedBy = "client",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+)
+@ToString.Exclude
+private List<Order> orders;
 
 
     public void setEmail(String email) {
         if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new IllegalArgumentException("Invalid email format");
         } else this.email = email;
+    }
+
+    public void addOrder (Order order) {
+        orders.add(order);
+        order.setClient(this);
     }
 
 }
