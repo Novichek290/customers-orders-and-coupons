@@ -1,6 +1,5 @@
 package dev.sorokin.entity;
 
-import dev.sorokin.design.Color;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,4 +27,6 @@ public class Profile {
     @JoinColumn(name = "client_id", nullable = false)
     @ToString.Exclude
     private Client client;
+
+//    private Order order;
 }

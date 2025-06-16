@@ -7,6 +7,7 @@ import dev.sorokin.exeption.ClientEmailAlreadyExists;
 import jakarta.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,6 +17,7 @@ public class ClientService {
     private static TransactionHelper transactionHelper;
     private final SessionFactory sessionFactory;
 
+    @Autowired
     public ClientService(TransactionHelper transactionHelper, SessionFactory sessionFactory) {
         this.transactionHelper = transactionHelper;
         this.sessionFactory = sessionFactory;

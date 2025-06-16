@@ -15,6 +15,7 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="logging.level.org.hibernate.SQL">DEBUG</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
 
 
@@ -39,6 +40,7 @@
         <!-- Entities -->
         <mapping class="dev.sorokin.entity.Client"/>
         <mapping class="dev.sorokin.entity.Profile"/>
+        <mapping class="dev.sorokin.entity.Order"/>
 
     </session-factory>
 </hibernate-configuration>
