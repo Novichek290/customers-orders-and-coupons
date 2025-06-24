@@ -1,26 +1,20 @@
 package dev.sorokin.service;
 
-import dev.sorokin.design.Color;
+import dev.sorokin.controller.Console;
+import dev.sorokin.util.Color;
 import dev.sorokin.entity.Client;
 import dev.sorokin.entity.Profile;
 import dev.sorokin.exeption.ClientEmailAlreadyExists;
-import jakarta.transaction.Transactional;
-import org.hibernate.SessionFactory;
+import dev.sorokin.util.TransactionHelper;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class ClientService {
-    private static TransactionHelper transactionHelper;
-    private final SessionFactory sessionFactory;
+    private final TransactionHelper transactionHelper;
 
-    @Autowired
-    public ClientService(TransactionHelper transactionHelper, SessionFactory sessionFactory) {
+    public ClientService(TransactionHelper transactionHelper) {
         this.transactionHelper = transactionHelper;
-        this.sessionFactory = sessionFactory;
     }
 
     public Client create(Client client) {
@@ -36,15 +30,14 @@ public class ClientService {
                 if ("23505".equals(e.getSQLState())) {  // Код ошибки уникальности в PostgreSQL
                     String constraintName = e.getConstraintName(); // Например: "users_email_key"
                     throw new ClientEmailAlreadyExists(parseFieldName(constraintName),
-                            color.getPURPLE() + "The " + client.getEmail() + " you entered is already in use" + color.getRESET());
+                            Color.getPURPLE() + "The " + client.getEmail() + " you entered is already in use" + color.getRESET());
                 }
             }
             return client;
         });
     }
 
-
-        private String parseFieldName(String constraintName) {
+    private String parseFieldName(String constraintName) {
             if (constraintName.contains("email")) return "email";
             if (constraintName.contains("username")) return "username";
             return "unknown_field";
@@ -57,62 +50,7 @@ public class ClientService {
         });
     }
 
-    public List<Client> getAll() {
-        List<Client> clientList = transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("SELECT c FROM Client c").getResultList();
-        });
-        return clientList;
-    }
-
-    public void printAll() {
-        try {
-            List<Client> clientList = transactionHelper.executeInTransaction(session -> {
-                return session.createQuery("SELECT c FROM Client c order by id").setTimeout(3).getResultList();
-            });
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-            System.out.print(Color.getBLUE() + "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
-            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-" + Color.getRESET());
-            for (Client clients : clientList) {
-                System.out.printf("ID: %-12s | Name: %-12s | Email: %-26s | At: %-26s | profile: %-12s\n",
-                        clients.getId(),
-                        clients.getName(),
-                        clients.getEmail(),
-                        clients.getDateTime() != null ? clients.getDateTime().format(formatter) : "null",
-                        clients.getProfile() != null ? clients.getProfile().getId() : null);
-            }
-            System.out.print(Color.getBLUE() + "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-");
-            System.out.println("-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-" + Color.getRESET());
-        } catch (Exception e) {
-            System.err.println(Color.getCYAN() + "Ошибка при получении клиентов" + Color.getRESET());
-            throw e;
-
-        }
-    }
-
-    public static Client getById(Long id) {
-        return transactionHelper.executeInTransaction(session -> {
-            return session.get(Client.class, id);
-        });
-    }
-
-    public List<Client> getByName(String name) {
-        return transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("SELECT c FROM Client c where c.name = :name", Client.class)
-                    .setParameter("name", name).
-                    getResultList();
-        });
-    }
-
-    public List<Client> getByEmail(String email) {
-        return transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("SELECT c FROM Client c where c.email = :email", Client.class)
-                    .setParameter("email", email).
-                    getResultList();
-        });
-    }
-
-    public void update (Long id, String newName, String newEmail) {
+    public void clientUpdate(Long id, String newName, String newEmail) {
         transactionHelper.executeInTransaction(session -> {
             session.createQuery("UPDATE Client c SET c.name = :name, c.email = :email where c.id = :id")
                     .setParameter("name", newName)
@@ -124,7 +62,8 @@ public class ClientService {
     }
 
     public Client profileUpdate(Long clientId, String address, String phone) {
-        Client client = ClientService.getById(clientId);
+        Console console = new Console(transactionHelper);
+        Client client = console.getById(clientId);
         Profile profile = Profile.builder()
                 .phone(phone)
                 .address(address)
@@ -136,8 +75,7 @@ public class ClientService {
         return client;
     }
 
-    @Transactional
-    public void update(Client client) {
+    public void clientUpdate(Client client) {
         transactionHelper.executeInTransaction(session -> {
 
             session.merge(client);
