@@ -1,8 +1,9 @@
 package dev.sorokin.service;
 
-import dev.sorokin.design.Color;
+import dev.sorokin.util.Color;
 import dev.sorokin.entity.Client;
 import dev.sorokin.entity.Profile;
+import dev.sorokin.util.TransactionHelper;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

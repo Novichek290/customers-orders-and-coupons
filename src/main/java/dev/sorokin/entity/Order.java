@@ -1,7 +1,6 @@
 package dev.sorokin.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.sorokin.service.OrderStatus;
+import dev.sorokin.util.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;

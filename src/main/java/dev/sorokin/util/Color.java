@@ -1,4 +1,4 @@
-package dev.sorokin.design;
+package dev.sorokin.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
