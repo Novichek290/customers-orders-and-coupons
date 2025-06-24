@@ -1,4 +1,4 @@
-package dev.sorokin.service;
+package dev.sorokin.util;
 
 import dev.sorokin.exeption.ServiceExeption;
 import org.hibernate.Session;
@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 @Component
 public class TransactionHelper {
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public TransactionHelper(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -45,7 +45,6 @@ public class TransactionHelper {
             transaction = session.getTransaction();
             transaction.begin();
 
-            if(transaction == null) throw new IllegalStateException("Transaction not started");
             var result = action.apply(session);
             transaction.commit();
 

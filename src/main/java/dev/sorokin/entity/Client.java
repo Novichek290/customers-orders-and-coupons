@@ -43,18 +43,19 @@ public class Client {
         orphanRemoval = true
 )
 @ToString.Exclude
-private List<Order> orders;
+@Builder.Default
+private List<Order> orders = new ArrayList<>();
 
-
+public void addOrder (Order order) {
+        orders.add(order);
+        order.setClient(this);
+    }
     public void setEmail(String email) {
         if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new IllegalArgumentException("Invalid email format");
         } else this.email = email;
     }
 
-    public void addOrder (Order order) {
-        orders.add(order);
-        order.setClient(this);
-    }
+
 
 }

@@ -1,4 +1,4 @@
-package dev.sorokin.service;
+package dev.sorokin.util;
 
 public enum OrderStatus {
     PENDING,               // Ожидание
