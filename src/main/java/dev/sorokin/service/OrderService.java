@@ -1,6 +1,7 @@
 package dev.sorokin.service;
 
-import dev.sorokin.entity.Order;
+import dev.sorokin.entity.Client;
+import dev.sorokin.entity.ClientOrder;
 import dev.sorokin.util.TransactionHelper;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +15,16 @@ public class OrderService {
         this.transactionHelper = transactionHelper;
     }
 
-    public void orderCreate(Order order) {
+    public void orderCreate(ClientOrder order) {
         transactionHelper.executeInTransaction(session -> {
             session.persist(order);
             return order;
         });
     }
 
-    public List<Order> getClientOrders (Long clientId) {
+    public List<ClientOrder> getClientOrders (Long clientId) {
         return transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("select o from Order o where o.client.id =: clientId", Order.class)
+            return session.createQuery("select o from ClientOrder o where o.client.id =: clientId", ClientOrder.class)
                     .setParameter("clientId", clientId)
                     .getResultList();
         });
