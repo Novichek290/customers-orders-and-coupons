@@ -1,7 +1,7 @@
 package dev.sorokin.configuration;
 
 import dev.sorokin.entity.Client;
-import dev.sorokin.entity.Order;
+import dev.sorokin.entity.ClientOrder;
 import dev.sorokin.entity.Profile;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -14,11 +14,11 @@ public class HibernateConfiguration {
     @Bean
     public static SessionFactory sessionFactory() {
         return new org.hibernate.cfg.Configuration()
-                .configure("hibernate.cfg.xml") // Явно укажите конфиг
+                .configure("hibernate.cfg.xml") // Явно конфиг
                 .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .addAnnotatedClass(Client.class)
                 .addAnnotatedClass(Profile.class)
-                .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(ClientOrder.class)
                 .buildSessionFactory();
     }
 }

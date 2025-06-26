@@ -44,10 +44,10 @@ public class Client {
 )
 @ToString.Exclude
 @Builder.Default
-private List<Order> orders = new ArrayList<>();
+private List<ClientOrder> order = new ArrayList<>();
 
-public void addOrder (Order order) {
-        orders.add(order);
+public void addOrder (ClientOrder order) {
+        this.order.add(order);
         order.setClient(this);
     }
     public void setEmail(String email) {

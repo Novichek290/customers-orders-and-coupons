@@ -40,7 +40,7 @@
         <!-- Entities -->
         <mapping class="dev.sorokin.entity.Client"/>
         <mapping class="dev.sorokin.entity.Profile"/>
-        <mapping class="dev.sorokin.entity.Order"/>
+        <mapping class="dev.sorokin.entity.ClientOrder"/>
 
     </session-factory>
 </hibernate-configuration>

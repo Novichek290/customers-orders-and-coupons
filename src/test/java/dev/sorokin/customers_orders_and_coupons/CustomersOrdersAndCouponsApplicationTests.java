@@ -42,7 +42,7 @@ class CustomersOrdersAndCouponsApplicationTests {
 //		client.setEmail("example@gmail.com");
 //		client.setDateTime(LocalDateTime.now());
 //
-//		profile.setAddress("Some address");
+//		profile.setAddress("FindMaxTripletClass address");
 //		profile.setPhone("812345");
 //		profile.setClient(client);
 //
