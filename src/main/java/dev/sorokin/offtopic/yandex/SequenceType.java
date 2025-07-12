@@ -1,4 +1,4 @@
-package dev.sorokin.offtopic;
+package dev.sorokin.offtopic.yandex;
 
 import java.util.ArrayList;
 import java.util.List;

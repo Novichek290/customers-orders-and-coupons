@@ -1,5 +1,5 @@
 package dev.sorokin.contract;
 
 public interface Command {
-    void execute();
+    public void execute();
 }

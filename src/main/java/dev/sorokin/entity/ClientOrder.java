@@ -3,7 +3,7 @@ package dev.sorokin.entity;
 import dev.sorokin.controller.DBPrintout;
 import dev.sorokin.service.UniversalService;
 import dev.sorokin.util.OrderStatus;
-import dev.sorokin.util.TransactionHelper;
+//import dev.sorokin.util.TransactionHelper;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -12,9 +12,10 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder(toBuilder = true)
+//@AllArgsConstructor
+//@NoArgsConstructor
+@RequiredArgsConstructor
+//@Builder(toBuilder = true)
 @Table(name = "client_orders", schema = "client_manager")
 @Entity
 public class ClientOrder {

@@ -4,7 +4,7 @@ import dev.sorokin.util.Color;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Console {
+public class ConsoleNotification {
     public void notification(String notification) {
         System.out.println(Color.getYELLOW() + notification + Color.getRESET());
     }
