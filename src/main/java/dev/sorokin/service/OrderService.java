@@ -1,31 +1,34 @@
 package dev.sorokin.service;
 
-import dev.sorokin.entity.Order;
-import dev.sorokin.util.TransactionHelper;
+import dev.sorokin.entity.Client;
+import dev.sorokin.entity.ClientOrder;
+import dev.sorokin.repository.ClientRepository;
+//import dev.sorokin.util.TransactionHelper;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    private final TransactionHelper transactionHelper;
+    private final ClientRepository clientRepository;
+//    private final TransactionHelper transactionHelper;
 
-    public OrderService(TransactionHelper transactionHelper) {
-        this.transactionHelper = transactionHelper;
+    public void orderCreate(ClientOrder order) {
+//        clientRepository.save(order);
+//        transactionHelper.executeInTransaction(session -> {
+//            session.persist(order);
+//            return order;
+//        });
     }
 
-    public void orderCreate(Order order) {
-        transactionHelper.executeInTransaction(session -> {
-            session.persist(order);
-            return order;
-        });
-    }
-
-    public List<Order> getClientOrders (Long clientId) {
-        return transactionHelper.executeInTransaction(session -> {
-            return session.createQuery("select o from Order o where o.client.id =: clientId", Order.class)
-                    .setParameter("clientId", clientId)
-                    .getResultList();
-        });
-    }
+//    public List<ClientOrder> getClientOrders (Long clientId) {
+//        return transactionHelper.executeInTransaction(session -> {
+//            return session.createQuery("select o from ClientOrder o where o.client.id =: clientId", ClientOrder.class)
+//                    .setParameter("clientId", clientId)
+//                    .getResultList();
+//        });
+//    }
 }

@@ -1,4 +1,4 @@
-package dev.sorokin.exeption;
+package dev.sorokin.exception;
 
 import lombok.Getter;
 

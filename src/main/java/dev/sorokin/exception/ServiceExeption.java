@@ -1,4 +1,4 @@
-package dev.sorokin.exeption;
+package dev.sorokin.exception;
 
 public class ServiceExeption extends RuntimeException{
     public ServiceExeption(String message, Throwable cause) {

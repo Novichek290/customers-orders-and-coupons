@@ -28,5 +28,4 @@ public class Profile {
     @ToString.Exclude
     private Client client;
 
-//    private Order order;
 }

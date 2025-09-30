@@ -1,11 +1,10 @@
-package dev.sorokin.anotherclass;
+package dev.sorokin.offtopic.yandex;
 
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class Some {
+public class FindMaxTripletClass {
     public static void main(String[] args) {
 
         //Дан список. Определите, является ли он монотонно возрастающим
